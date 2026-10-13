@@ -21,9 +21,15 @@ from werkzeug.utils import secure_filename
 
 BASE_DIR = Path(__file__).resolve().parent
 
-DB_PATH = BASE_DIR / "database.db"
-STORAGE_DIR = BASE_DIR / "storage"
-KEYS_DIR = BASE_DIR / "keys"
+# Vercel sets the VERCEL env variable
+if os.environ.get("VERCEL"):
+    DATA_DIR = Path("/tmp")
+else:
+    DATA_DIR = BASE_DIR
+
+DB_PATH = DATA_DIR / "database.db"
+STORAGE_DIR = DATA_DIR / "storage"
+KEYS_DIR = DATA_DIR / "keys"
 
 PRIVATE_KEY_PATH = KEYS_DIR / "private_key.pem"
 PUBLIC_KEY_PATH = KEYS_DIR / "public_key.pem"
